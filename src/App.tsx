@@ -75,11 +75,9 @@ const ROTATE_OPTIONS: SegmentOption<'off' | 'on'>[] = [
 function Overlay() {
   const season = useSceneStore((s) => s.season)
   const isNight = useSceneStore((s) => s.isNight)
-  const windStrength = useSceneStore((s) => s.windStrength)
   const autoRotate = useSceneStore((s) => s.autoRotate)
   const setSeason = useSceneStore((s) => s.setSeason)
   const toggleNight = useSceneStore((s) => s.toggleNight)
-  const setWindStrength = useSceneStore((s) => s.setWindStrength)
   const toggleAutoRotate = useSceneStore((s) => s.toggleAutoRotate)
 
   return (

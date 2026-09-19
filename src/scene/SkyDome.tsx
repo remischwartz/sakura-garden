@@ -94,7 +94,7 @@ export function SkyDome() {
       {!isNight &&
         (warmDay ? (
           <Environment
-            files="/citrus_orchard_road_puresky_1k.hdr"
+            files={`${import.meta.env.BASE_URL}citrus_orchard_road_puresky_1k.hdr`}
             background
             backgroundBlurriness={sky.envBlur}
             environmentIntensity={sky.envIntensity}
