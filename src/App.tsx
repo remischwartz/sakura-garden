@@ -67,11 +67,6 @@ const TIME_OPTIONS: SegmentOption<'day' | 'night'>[] = [
   { value: 'night', icon: '🌙', label: 'Night' },
 ]
 
-const ROTATE_OPTIONS: SegmentOption<'off' | 'on'>[] = [
-  { value: 'off', icon: '⏸', label: 'Rotation off' },
-  { value: 'on', icon: '🔄', label: 'Auto-rotate' },
-]
-
 function Overlay() {
   const season = useSceneStore((s) => s.season)
   const isNight = useSceneStore((s) => s.isNight)
@@ -100,31 +95,17 @@ function Overlay() {
           />
         </div>
 
-        {/* <div className="row">
-          <label className="slider-label" htmlFor="wind">
-            Wind {Math.round(windStrength * 100)}%
-          </label>
-          <input
-            id="wind"
-            type="range"
-            min={0}
-            max={1}
-            step={0.01}
-            value={windStrength}
-            onChange={(e) => setWindStrength(Number(e.target.value))}
-          />
-        </div> */}
-
-        <div className="row">
-          <SegmentedControl
-            label="Camera rotation"
-            options={ROTATE_OPTIONS}
-            value={autoRotate ? 'on' : 'off'}
-            onChange={(r) => {
-              if ((r === 'on') !== autoRotate) toggleAutoRotate()
-            }}
-          />
-        </div>
+        <button
+          type="button"
+          role="switch"
+          aria-checked={autoRotate}
+          aria-label="Auto-rotate"
+          title="Auto-rotate"
+          className={`rotate-toggle ${autoRotate ? 'active' : ''}`}
+          onClick={toggleAutoRotate}
+        >
+          <span aria-hidden="true">🔄</span>
+        </button>
       </div>
     </div>
   )
