@@ -133,7 +133,7 @@ function App() {
   return (
     <div className="app-root">
       <Canvas
-        shadows
+        shadows="percentage"
         camera={{ position: [6, 4, 8.5], fov: 45 }}
         gl={{ antialias: true }}
       >
