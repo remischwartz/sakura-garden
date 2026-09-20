@@ -22,7 +22,7 @@ export function Pond() {
 
   const pond = useControls('Pond & Reflection', {
     reflectivity: { value: 1, min: 0, max: 1, step: 0.01 },
-    distortion: { value: 0.001, min: 0, max: 0.02, step: 0.0005, label: 'ripple strength' },
+    distortion: { value: 0.003, min: 0, max: 0.02, step: 0.0005, label: 'ripple strength' },
     ripples: { value: 60, min: 5, max: 200, step: 1, label: 'ripple scale' },
     rippleSpeed: { value: 0.6, min: 0, max: 4, step: 0.05, label: 'ripple speed' },
     tint: { value: '#ffffff', label: 'water tint' },
@@ -31,7 +31,7 @@ export function Pond() {
     blur: { value: 1.5, min: 0, max: 8, step: 0.1, label: 'blur (px)' },
     resolution: { value: 1024, options: [512, 1024, 2048, 4096] },
     samples: { value: 0, options: [0, 2, 4, 8], label: 'MSAA samples' },
-    stone: { value: '#6b6a63', label: 'island stone' },
+    stone: { value: '#5c5735', label: 'island stone' },
   }, { collapsed: true })
 
   // The official three.js Reflector technique (onBeforeRender hooking into
