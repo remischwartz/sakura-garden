@@ -3,6 +3,7 @@ import { useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
 import { createPondShapeGeometry } from '../utils/pondShape'
 import { IMPACT_LIFETIME, MAX_IMPACTS, impacts } from '../utils/pondImpacts'
+import { useSceneStore } from '../store'
 
 // Raindrop impacts on the water: a transparent overlay on the pond surface
 // where every cell of a jittered grid spawns expanding, fading rings on its
@@ -82,18 +83,20 @@ const fragmentShader = /* glsl */ `
 export function PondRipples({ rain }: { rain: boolean }) {
   const geometry = useMemo(() => createPondShapeGeometry(96), [])
   const materialRef = useRef<THREE.ShaderMaterial>(null)
+  const isNight = useSceneStore((s) => s.isNight)
+  
 
   const uniforms = useMemo(
     () => ({
       uTime: { value: 0 },
       uCell: { value: CELL },
       uMaxRadius: { value: MAX_RADIUS },
-      uColor: { value: new THREE.Color('#e8f1fa') },
+      uColor: { value: new THREE.Color(isNight ? '#707070' : '#e8f1fa') },
       uOpacity: { value: 1.0 },
       uRain: { value: 0 },
       uImpacts: { value: impacts },
     }),
-    [],
+    [isNight],
   )
 
   useFrame(({ clock }) => {
