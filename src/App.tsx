@@ -1,7 +1,8 @@
-import { Suspense, useEffect } from 'react'
-import { Canvas } from '@react-three/fiber'
+import { Suspense, useEffect, useRef } from 'react'
+import { Canvas, useFrame } from '@react-three/fiber'
 import { Leva } from 'leva'
 import { Experience } from './scene/Experience'
+import { LoadingScreen } from './LoadingScreen'
 import { useSceneStore, type Season } from './store'
 import { resetDebugParams } from './debug'
 import { SEASON_ORDER, SEASON_THEME } from './theme'
@@ -10,13 +11,14 @@ import './App.css'
 // Set to false to hide the Leva debug panel.
 const SHOW_DEBUG_UI = false
 
-function Loader() {
-  return (
-    <mesh>
-      <boxGeometry args={[0.5, 0.5, 0.5]} />
-      <meshStandardMaterial color="hotpink" wireframe />
-    </mesh>
-  )
+// Mounts only once the Suspense content has resolved; waits a couple of frames
+// so shaders compile and the first frames are drawn before revealing the scene.
+function SceneReady() {
+  const frames = useRef(0)
+  useFrame(() => {
+    if (++frames.current === 3) useSceneStore.getState().setSceneReady()
+  })
+  return null
 }
 
 interface SegmentOption<T extends string> {
@@ -137,11 +139,13 @@ function App() {
         camera={{ position: [6, 4, 8.5], fov: 45 }}
         gl={{ antialias: true }}
       >
-        <Suspense fallback={<Loader />}>
+        <Suspense fallback={null}>
           <Experience />
+          <SceneReady />
         </Suspense>
       </Canvas>
       <Overlay />
+      <LoadingScreen />
       <Leva hidden={!SHOW_DEBUG_UI} collapsed titleBar={{ title: 'Debug' }} />
     </div>
   )

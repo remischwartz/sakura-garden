@@ -52,6 +52,63 @@
   </head>
   <body>
     <div id="root"></div>
+    <!-- Shown while the JS bundle downloads; removed by LoadingScreen once React mounts. -->
+    <div id="boot-loader" role="status" aria-label="Loading the garden">
+      <style>
+        #boot-loader {
+          position: fixed;
+          inset: 0;
+          z-index: 100;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          gap: 18px;
+          background: #0b1026;
+          color: #f1efe9;
+          font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
+        }
+        #boot-loader .t {
+          font-size: 1.4rem;
+          font-weight: 500;
+          letter-spacing: 0.08em;
+        }
+        #boot-loader .p {
+          width: 28px;
+          height: 28px;
+          border-radius: 100% 0 100% 0;
+          background: #f7b6cf;
+          animation: boot-spin 1.6s ease-in-out infinite;
+        }
+        #boot-loader .b {
+          width: 180px;
+          height: 3px;
+          border-radius: 2px;
+          background: rgba(255, 255, 255, 0.15);
+          overflow: hidden;
+        }
+        #boot-loader .b i {
+          display: block;
+          width: 35%;
+          height: 100%;
+          background: #f7b6cf;
+          animation: boot-slide 1.2s ease-in-out infinite;
+        }
+        @keyframes boot-spin {
+          to { transform: rotate(360deg); }
+        }
+        @keyframes boot-slide {
+          from { transform: translateX(-100%); }
+          to { transform: translateX(290%); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          #boot-loader .p, #boot-loader .b i { animation: none; }
+        }
+      </style>
+      <div class="p"></div>
+      <div class="t">Sakura Garden</div>
+      <div class="b"><i></i></div>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

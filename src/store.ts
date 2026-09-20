@@ -21,6 +21,8 @@ interface SceneState {
   isNight: boolean
   windStrength: number
   autoRotate: boolean
+  sceneReady: boolean
+  setSceneReady: () => void
   setSeason: (season: Season) => void
   toggleNight: () => void
   setWindStrength: (value: number) => void
@@ -32,6 +34,8 @@ export const useSceneStore = create<SceneState>((set) => ({
   isNight: initial.isNight,
   windStrength: 0.5,
   autoRotate: false,
+  sceneReady: false,
+  setSceneReady: () => set({ sceneReady: true }),
   setSeason: (season) => set({ season }),
   toggleNight: () => set((s) => ({ isNight: !s.isNight })),
   setWindStrength: (windStrength) => set({ windStrength }),
