@@ -12,6 +12,7 @@ import { SakuraTree } from './SakuraTree'
 import { Bushes } from './Bushes'
 import { Forest } from './Forest'
 import { FallingParticles } from './FallingParticles'
+import { Rain } from './Rain'
 import { TREES } from '../utils/treeLayout'
 import { POND_CENTER } from '../utils/pondShape'
 
@@ -19,6 +20,8 @@ const ORBIT_TARGET: [number, number, number] = [POND_CENTER[0], 1.2, POND_CENTER
 
 export function Experience() {
   const autoRotate = useSceneStore((s) => s.autoRotate)
+  const season = useSceneStore((s) => s.season)
+  const isNight = useSceneStore((s) => s.isNight)
 
   const controlsRef = useRef<OrbitControlsImpl>(null)
   const camera = useThree((st) => st.camera) as THREE.PerspectiveCamera
@@ -98,6 +101,7 @@ export function Experience() {
       <Bushes />
       <Forest />
       <FallingParticles />
+      {season === 'spring' && !isNight && <Rain />}
 
       <OrbitControls
         ref={controlsRef}

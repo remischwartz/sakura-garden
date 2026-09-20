@@ -8,6 +8,7 @@ import { useSceneStore } from '../store'
 import { SEASON_THEME } from '../theme'
 import { POND_CENTER, pondPointAt, createPondShapeGeometry } from '../utils/pondShape'
 import { Lantern } from './Lantern'
+import { PondRipples } from './PondRipples'
 
 // Off-center island for the lantern: inside the pond, biased toward the
 // tree-facing side, not in the middle.
@@ -19,6 +20,7 @@ export function Pond() {
   const season = useSceneStore((s) => s.season)
   const isNight = useSceneStore((s) => s.isNight)
   const theme = SEASON_THEME[season]
+  const raining = season === 'spring' && !isNight
 
   const pond = useControls('Pond & Reflection', {
     reflectivity: { value: 1, min: 0, max: 1, step: 0.01 },
@@ -58,10 +60,11 @@ export function Pond() {
   useEffect(() => {
     const u = (reflector.material as THREE.ShaderMaterial).uniforms
     u.reflectivity.value = pond.reflectivity
-    u.distortion.value = pond.distortion
-    u.ripples.value = pond.ripples
+    // Rain agitates the surface: stronger, finer wobble in the reflection.
+    u.distortion.value = pond.distortion * (raining ? 1.6 : 1)
+    u.ripples.value = pond.ripples * (raining ? 1.6 : 1)
     u.blur.value = pond.blur
-  }, [reflector, pond.reflectivity, pond.distortion, pond.ripples, pond.blur])
+  }, [reflector, pond.reflectivity, pond.distortion, pond.ripples, pond.blur, raining])
 
   useEffect(() => {
     const rt = reflector.getRenderTarget()
@@ -80,6 +83,7 @@ export function Pond() {
   return (
     <group position={[POND_CENTER[0], 0.01, POND_CENTER[1]]}>
       <primitive object={reflector} rotation={[-Math.PI / 2, 0, 0]} receiveShadow />
+      <PondRipples rain={raining} />
 
       {/* small island the lantern sits on, off-center in the water */}
       <group position={[ISLAND_X, 0, ISLAND_Z]}>
