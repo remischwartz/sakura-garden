@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://remischwartz.github.io/sakura-garden/sitemap.xml
