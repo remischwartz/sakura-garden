@@ -7,7 +7,7 @@ export interface TreePlacement {
   scale: number
 }
 
-// Extra trees planted just past the pond's shoreline/bush ring — close
+// Extra trees planted just past the pond's shoreline/bush ring - close
 // enough to overhang the water, on arcs clear of the lantern island (~2.05
 // rad) and the main tree's own side of the pond.
 function shorePosition(angle: number, margin: number): [number, number, number] {

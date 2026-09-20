@@ -38,7 +38,7 @@ export function Pond() {
 
   // The official three.js Reflector technique (onBeforeRender hooking into
   // the renderer) reimplemented with a plain 8-bit, non-multisampled render
-  // target — MSAA + HalfFloat render targets were silently failing to
+  // target - MSAA + HalfFloat render targets were silently failing to
   // resolve in this pipeline.
   const reflector = useMemo(() => {
     const geometry = createPondShapeGeometry(96)

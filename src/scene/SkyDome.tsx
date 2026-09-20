@@ -67,7 +67,7 @@ export function SkyDome() {
     gl.toneMappingExposure = lights.exposure
   }, [gl, lights.exposure])
 
-  // Warm, low-sun "golden hour" look for daytime — except in winter, which
+  // Warm, low-sun "golden hour" look for daytime - except in winter, which
   // keeps a crisp, cool, high-sun daylight.
   const warmDay = !isNight && season !== 'winter'
 
