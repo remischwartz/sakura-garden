@@ -5,6 +5,9 @@ import * as THREE from 'three'
 // placement so everything lines up.
 export const POND_CENTER: [number, number] = [2.6, -2.6]
 export const POND_RADIUS = 3.1
+// Water sits below the surrounding ground; the basin floor is deeper still.
+export const POND_WATER_Y = -0.22
+export const POND_DEPTH = 0.5
 
 // World-space wind direction: from the main tree (world origin) toward the
 // pond, normalized. Shared by falling petals/leaves and canopy sway so the
@@ -49,4 +52,12 @@ export function createPondShapeGeometry(segments = 96): THREE.ShapeGeometry {
 export function pondPointAt(angle: number, fraction: number): [number, number] {
   const r = pondEdgeRadius(angle) * fraction
   return [r * Math.cos(angle), r * Math.sin(angle)]
+}
+
+// Height at which falling things come to rest at world (x, z): the water
+// surface over the pond, the ground elsewhere.
+export function restHeightAt(x: number, z: number): number {
+  const dx = x - POND_CENTER[0]
+  const dz = z - POND_CENTER[1]
+  return Math.hypot(dx, dz) < pondEdgeRadius(Math.atan2(dz, dx)) ? POND_WATER_Y : 0.02
 }

@@ -4,15 +4,17 @@ import { useControls } from 'leva'
 import { useSceneStore } from '../store'
 import { tint } from '../debug'
 import { SEASON_THEME } from '../theme'
-import { POND_CENTER, POND_RADIUS, pondEdgeRadius } from '../utils/pondShape'
+import { POND_CENTER, POND_RADIUS, POND_DEPTH, pondEdgeRadius } from '../utils/pondShape'
 
 export { POND_CENTER, POND_RADIUS }
 
 // A gently undulating disc of ground so the flat-shaded low-poly look
-// doesn't read as a perfectly flat plane.
-function useBumpyDiscGeometry(radius: number, segments: number) {
+// doesn't read as a perfectly flat plane. The pond sits in a shallow basin
+// carved into it (water level is POND_WATER_Y).
+function useBumpyDiscGeometry(radius: number) {
   return useMemo(() => {
-    const geometry = new THREE.CircleGeometry(radius, segments)
+    // Polar grid (not a fan) so there are enough vertices to sculpt the basin.
+    const geometry = new THREE.RingGeometry(0.01, radius, 144, 90)
     const position = geometry.attributes.position as THREE.BufferAttribute
     const [pondX, pondZ] = POND_CENTER
     for (let i = 0; i < position.count; i++) {
@@ -28,25 +30,26 @@ function useBumpyDiscGeometry(radius: number, segments: number) {
       const pondDist = Math.sqrt(dx * dx + dz * dz)
       const pondAngle = Math.atan2(dz, dx)
       const shoreRadius = pondEdgeRadius(pondAngle)
-      const pondFade = 1 - THREE.MathUtils.smoothstep(pondDist, shoreRadius, shoreRadius + 1.2)
-      position.setZ(i, bump * (1 - edgeFade) * pondFade)
+      const basin = THREE.MathUtils.smoothstep(pondDist - shoreRadius, -0.6, 0.6)
+      const height = bump * (1 - edgeFade)
+      position.setZ(i, THREE.MathUtils.lerp(-POND_DEPTH, height, basin))
     }
     geometry.computeVertexNormals()
     return geometry
-  }, [radius, segments])
+  }, [radius])
 }
 
 export function Ground() {
   const season = useSceneStore((s) => s.season)
   const isNight = useSceneStore((s) => s.isNight)
   const theme = SEASON_THEME[season]
-  const geometry = useBumpyDiscGeometry(30, 72)
+  const geometry = useBumpyDiscGeometry(30)
 
   const ground = useControls('Ground', {
     tint: { value: '#ffffff' },
     roughness: { value: 1, min: 0, max: 1, step: 0.01 },
     metalness: { value: 0, min: 0, max: 1, step: 0.01 },
-    flatShading: true,
+    flatShading: false,
   }, { collapsed: true })
 
   const color = tint(isNight ? theme.groundColorNight : theme.groundColor, ground.tint)

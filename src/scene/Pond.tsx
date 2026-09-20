@@ -6,7 +6,7 @@ import * as THREE from 'three'
 import { SimpleReflector } from '../utils/reflector'
 import { useSceneStore } from '../store'
 import { SEASON_THEME } from '../theme'
-import { POND_CENTER, pondPointAt, createPondShapeGeometry } from '../utils/pondShape'
+import { POND_CENTER, POND_WATER_Y, pondPointAt, createPondShapeGeometry } from '../utils/pondShape'
 import { Lantern } from './Lantern'
 import { PondRipples } from './PondRipples'
 
@@ -23,7 +23,8 @@ export function Pond() {
   const raining = season === 'spring' && !isNight
 
   const pond = useControls('Pond & Reflection', {
-    reflectivity: { value: 1, min: 0, max: 1, step: 0.01 },
+    reflectivityDay: { value: 0.6, min: 0, max: 1, step: 0.01, label: 'reflectivity (day)' },
+    reflectivityNight: { value: 1, min: 0, max: 1, step: 0.01, label: 'reflectivity (night)' },
     distortion: { value: 0.003, min: 0, max: 0.02, step: 0.0005, label: 'ripple strength' },
     ripples: { value: 60, min: 5, max: 200, step: 1, label: 'ripple scale' },
     rippleSpeed: { value: 0.6, min: 0, max: 4, step: 0.05, label: 'ripple speed' },
@@ -59,12 +60,12 @@ export function Pond() {
 
   useEffect(() => {
     const u = (reflector.material as THREE.ShaderMaterial).uniforms
-    u.reflectivity.value = pond.reflectivity
+    u.reflectivity.value = isNight ? pond.reflectivityNight : pond.reflectivityDay
     // Rain agitates the surface: stronger, finer wobble in the reflection.
     u.distortion.value = pond.distortion * (raining ? 1.6 : 1)
     u.ripples.value = pond.ripples * (raining ? 1.6 : 1)
     u.blur.value = pond.blur
-  }, [reflector, pond.reflectivity, pond.distortion, pond.ripples, pond.blur, raining])
+  }, [reflector, isNight, pond.reflectivityDay, pond.reflectivityNight, pond.distortion, pond.ripples, pond.blur, raining])
 
   useEffect(() => {
     const rt = reflector.getRenderTarget()
@@ -81,7 +82,7 @@ export function Pond() {
   useEffect(() => () => reflector.getRenderTarget().dispose(), [reflector])
 
   return (
-    <group position={[POND_CENTER[0], 0.01, POND_CENTER[1]]}>
+    <group position={[POND_CENTER[0], POND_WATER_Y, POND_CENTER[1]]}>
       <primitive object={reflector} rotation={[-Math.PI / 2, 0, 0]} receiveShadow />
       <PondRipples rain={raining} />
 

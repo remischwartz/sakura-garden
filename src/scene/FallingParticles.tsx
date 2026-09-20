@@ -10,6 +10,7 @@ import { WIND_DIRECTION } from '../utils/pondShape'
 import { smoothRandom } from '../utils/noise'
 import { TREES } from '../utils/treeLayout'
 import { addPondImpact } from '../utils/pondImpacts'
+import { restHeightAt } from '../utils/pondShape'
 
 // Petals/leaves detach from every tree's own canopy anchor points (in world
 // space, accounting for each tree's position/rotation/scale), so they read
@@ -130,7 +131,7 @@ export function FallingParticles() {
       p.z += windZ * d + Math.cos(t * p.swaySpeed + p.phase) * theme.sway * fx.sway * 0.3 * d
       p.rot += p.rotSpeed * d
 
-      if (p.y < 0.02) {
+      if (p.y < restHeightAt(p.x, p.z)) {
         if (fromTree) addPondImpact(p.x, p.z, t)
         const [x, y, z] = fromTree ? spawnFromCanopy() : spawnFromSky()
         p.x = x
