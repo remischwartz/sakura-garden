@@ -1,0 +1,6 @@
+{
+  "oxc.enable": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.oxc": "explicit"
+  }
+}
