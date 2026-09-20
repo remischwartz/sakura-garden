@@ -31,7 +31,7 @@ export const SEASON_THEME: Record<Season, SeasonTheme> = {
     snowOnBranches: false,
     groundColor: '#8fc47a',
     groundColorNight: '#3a5636',
-    fogColor: '#608650',
+    fogColor: '#908b7a',
     pondColor: '#8fb8c9',
     particle: {
       colors: ['#ffc4d6', '#ffb0c9', '#fff0f4'],
@@ -50,7 +50,7 @@ export const SEASON_THEME: Record<Season, SeasonTheme> = {
     snowOnBranches: false,
     groundColor: '#5fa04e',
     groundColorNight: '#25401f',
-    fogColor: '#346926',
+    fogColor: '#726e5f',
     pondColor: '#6fa9b8',
     particle: {
       colors: ['#4f9150', '#5aa457', '#6fbf62'],

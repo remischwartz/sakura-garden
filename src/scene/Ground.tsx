@@ -40,7 +40,7 @@ export function Ground() {
   const season = useSceneStore((s) => s.season)
   const isNight = useSceneStore((s) => s.isNight)
   const theme = SEASON_THEME[season]
-  const geometry = useBumpyDiscGeometry(24, 64)
+  const geometry = useBumpyDiscGeometry(30, 72)
 
   const ground = useControls('Ground', {
     tint: { value: '#ffffff' },

@@ -10,6 +10,7 @@ import { Ground } from './Ground'
 import { Pond } from './Pond'
 import { SakuraTree } from './SakuraTree'
 import { Bushes } from './Bushes'
+import { Forest } from './Forest'
 import { FallingParticles } from './FallingParticles'
 import { TREES } from '../utils/treeLayout'
 import { POND_CENTER } from '../utils/pondShape'
@@ -95,6 +96,7 @@ export function Experience() {
         <SakuraTree key={tree.seed} {...tree} />
       ))}
       <Bushes />
+      <Forest />
       <FallingParticles />
 
       <OrbitControls

@@ -8,7 +8,7 @@ import { SEASON_ORDER, SEASON_THEME } from './theme'
 import './App.css'
 
 // Set to false to hide the Leva debug panel.
-const SHOW_DEBUG_UI = false
+const SHOW_DEBUG_UI = true
 
 function Loader() {
   return (
