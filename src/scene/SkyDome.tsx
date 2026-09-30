@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { useThree } from '@react-three/fiber'
-import { Sky, Stars, Sparkles, Environment } from '@react-three/drei'
+import { Sky, Stars, Sparkles, Environment, useEnvironment } from '@react-three/drei'
 import * as THREE from 'three'
 import { useControls, levaStore } from 'leva'
 import { useSceneStore } from '../store'
@@ -14,6 +14,13 @@ export function SkyDome() {
   const sunRef = useRef<THREE.DirectionalLight>(null)
   const moonMeshRef = useRef<THREE.Mesh>(null)
   const { scene, gl } = useThree()
+
+  // Fetch the day-time HDR in the background as soon as the scene mounts
+  // (rather than only when <Environment> first renders on switching to day),
+  // so flipping from night to day doesn't stall on a first-time download.
+  useEffect(() => {
+    useEnvironment.preload({ files: `${import.meta.env.BASE_URL}citrus_orchard_road_puresky_1k.hdr` })
+  }, [])
 
   const lights = useControls('Lights', {
     exposure: { value: isNight ? 1.4 : 1, min: 0.1, max: 3, step: 0.01 },
