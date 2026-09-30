@@ -112,6 +112,7 @@ export function Experience() {
         autoRotate={autoRotate}
         autoRotateSpeed={cam.rotateSpeed}
         enableDamping={cam.damping}
+        enablePan={false}
       />
     </>
   )

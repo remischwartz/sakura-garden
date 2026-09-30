@@ -39,6 +39,42 @@
   color: #fdeef2;
 }
 
+.portfolio-link {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  padding: 8px 14px;
+  border-radius: 12px;
+  background: rgba(18, 22, 28, 0.55);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #f1efe9;
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  transition: background 0.15s ease;
+}
+
+.portfolio-link:hover {
+  background: rgb(51, 51, 51, 0.8);
+}
+
+.portfolio-link:focus-visible {
+  outline: 2px solid rgba(255, 178, 200, 0.9);
+  outline-offset: 1px;
+}
+
+@media (max-width: 640px) {
+  .portfolio-link {
+    top: calc(12px + env(safe-area-inset-top, 0px));
+    right: 12px;
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+}
+
 .row {
   display: flex;
   flex-wrap: wrap;

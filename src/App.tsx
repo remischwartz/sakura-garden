@@ -145,6 +145,15 @@ function App() {
         </Suspense>
       </Canvas>
       <Overlay />
+      <a
+        className="portfolio-link"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Remi Schwartz portfolio"
+        href="https://remischwartz.github.io/profile"
+      >
+        Portfolio
+      </a>
       <LoadingScreen />
       <Leva hidden={!SHOW_DEBUG_UI} collapsed titleBar={{ title: 'Debug' }} />
     </div>

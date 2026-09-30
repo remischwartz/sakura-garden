@@ -16,7 +16,7 @@ export function SkyDome() {
   const { scene, gl } = useThree()
 
   const lights = useControls('Lights', {
-    exposure: { value: 1, min: 0.1, max: 3, step: 0.01 },
+    exposure: { value: isNight ? 1.4 : 1, min: 0.1, max: 3, step: 0.01 },
     sunIntensity: { value: season === 'winter' ? 1 : 3, min: 0, max: 4, step: 0.01, label: 'sun ×' },
     sunTint: { value: season === 'winter' || isNight ? '#ffffff' : '#ff9900', label: 'sun tint' },
     sunAzimuth: { value: 0, min: -180, max: 180, step: 1, label: 'sun azimuth°' },
